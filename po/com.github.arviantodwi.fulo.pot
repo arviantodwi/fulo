@@ -1,0 +1,39 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.github.arviantodwi.fulo package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: com.github.arviantodwi.fulo\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-22 03:51+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/fulo.appdata.xml.in:7 data/fulo.desktop.in:3
+msgid "Fulo"
+msgstr ""
+
+#: data/fulo.appdata.xml.in:8 data/fulo.appdata.xml.in:10
+#: data/fulo.desktop.in:5
+msgid "Your all-in-one color tool"
+msgstr ""
+
+#: data/fulo.desktop.in:4
+msgid "Color Picker"
+msgstr ""
+
+#: data/fulo.desktop.in:8
+msgid "application-default-icon"
+msgstr ""
+
+#: data/fulo.desktop.in:11
+msgid "Colour;Picker;Palette;Calculator;Converter;"
+msgstr ""

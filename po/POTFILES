@@ -1,0 +1,3 @@
+data/fulo.appdata.xml.in
+data/fulo.desktop.in
+src/Application.vala

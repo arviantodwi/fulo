@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Fulo
+GenericName=Color Picker
+Comment=Your all-in-one color tool
+Categories=Utility;Graphics;Development;
+Exec=com.github.arviantodwi.fulo
+Icon=application-default-icon
+Terminal=false
+Type=Application
+Keywords=Colour;Picker;Palette;Calculator;Converter;
