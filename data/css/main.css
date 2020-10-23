@@ -18,14 +18,14 @@
  *
  * Authored by: Arvianto Dwi Wicaksono <arvianto.dwi@gmail.com>
  */
- 
-flowboxchild {
-    border-radius: 0;
-}
 
-.swatches-container {
+.swatches-box {
     background-color: #fff;
 }
-.picker-container {
-    background-color: #f5f5f5;
+
+.swatches-section-label {
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: -0.3px;
+    color: #656565;
 }

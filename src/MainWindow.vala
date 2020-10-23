@@ -44,8 +44,8 @@ namespace Fulo {
             Gtk.Settings gtk_settings = Gtk.Settings.get_default ();
             //  Granite.Settings granite_settings = Granite.Settings.get_default();
 
-            default_width = 582;
-            default_height = 426;
+            default_width = 580;
+            //  default_height = 426;
 
             Granite.ModeSwitch theme_switch = new Granite.ModeSwitch.from_icon_name (
                 "display-brightness-symbolic",
