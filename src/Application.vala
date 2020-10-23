@@ -19,6 +19,8 @@
  * Authored by: Arvianto Dwi Wicaksono <arvianto.dwi@gmail.com>
  */
 
+using Fulo.Views; 
+
 namespace Fulo {
 
     public class Application : Gtk.Application {
@@ -51,30 +53,14 @@ namespace Fulo {
 
         protected override void activate () {
             load_css ();
-
-            Gtk.FlowBox root_container = new Gtk.FlowBox ();
-            Gtk.FlowBoxChild swatches_container = new Gtk.FlowBoxChild ();
-            Gtk.FlowBoxChild picker_container = new Gtk.FlowBoxChild ();
-
-            swatches_container.can_focus = true;
-            swatches_container.width_request = 234;
-            swatches_container.valign = Gtk.Align.FILL;
-            swatches_container.get_style_context ().add_class("swatches-container");
-
-            picker_container.can_focus = true;
-            picker_container.width_request = 346;
-            picker_container.valign = Gtk.Align.FILL;
-            picker_container.get_style_context ().add_class("picker-container");
             
-            root_container.orientation = Gtk.Orientation.HORIZONTAL;
-            root_container.selection_mode = Gtk.SelectionMode.SINGLE;
-            root_container.width_request = 580;
-            root_container.height_request = 389;
-            root_container.add (swatches_container);
-            root_container.add (picker_container);
+            Gtk.Box root_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            SwatchesBox swatches = new SwatchesBox ();
+
+            root_box.pack_start (swatches, false, true, 0);
             
             main_window = new MainWindow (this);
-            main_window.add (root_container);
+            main_window.add (root_box);
             main_window.show_all ();
         }
 

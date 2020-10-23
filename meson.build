@@ -24,6 +24,9 @@ executable(
     meson.project_name(),
     'src/Application.vala',
     'src/MainWindow.vala',
+    'src/Enums/PresetColor.vala',
+    'src/Views/SwatchesBox.vala',
+    'src/Widgets/ColorSwatch.vala',
     asresources,
     dependencies: [
         dependency('gtk+-3.0'),
