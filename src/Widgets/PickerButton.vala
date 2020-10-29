@@ -19,18 +19,27 @@
  * Authored by: Arvianto Dwi Wicaksono <arvianto.dwi@gmail.com>
  */
 
-.swatches-box {
-    background-color: #fff;
-}
+namespace Fulo.Widgets {
 
-.swatches-section-label {
-    font-size: 1rem;
-    font-weight: bold;
-    letter-spacing: -0.3px;
-    color: #656565;
-}
+    public class PickerButton : Gtk.Button {
 
-.color-name-title {
-    font-size: 11px;
-    font-style: italic;
+        public PickerButton () {
+            Object ();
+        }
+
+        construct {
+            Gtk.Image *dropper_icon = new Gtk.Image ();
+            dropper_icon->pixel_size = 22;
+            dropper_icon->gicon = new ThemedIcon ("dropper");
+
+            //  unowned Gtk.Widget dropper_icon_pointer = dropper_icon;
+
+            this.always_show_image = true;
+            this.label = null;
+            this.set_image (dropper_icon);
+            this.get_style_context ().add_class (Gtk.STYLE_CLASS_FLAT);
+        }
+
+    }
+
 }
