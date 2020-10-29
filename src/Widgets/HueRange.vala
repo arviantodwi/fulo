@@ -19,45 +19,25 @@
  * Authored by: Arvianto Dwi Wicaksono <arvianto.dwi@gmail.com>
  */
 
-.swatches-box {
-    background-color: #fff;
-}
+namespace Fulo.Widgets {
 
-.swatches-section-label {
-    font-size: 1rem;
-    font-weight: bold;
-    letter-spacing: -0.3px;
-    color: #656565;
-}
+    public class HueRange : Gtk.Scale {
 
-.color-name-title {
-    font-size: 11px;
-    font-style: italic;
-}
+        public HueRange () {
+            Object ();
+        }
 
-scale contents trough {
-    border-radius: 3px;
-	min-height: 14px;
-	box-shadow: inset 0 0 0 1px rgba(255,255,255,.5);
-}
+        construct {
+            this.orientation = Gtk.Orientation.HORIZONTAL;
+            this.adjustment = new Gtk.Adjustment (360, 0, 360, 1, 360, 0);
+            this.width_request = 193;
+            this.draw_value = false;
+            this.digits = 4;
+            this.has_origin = false;
 
-scale contents trough slider {
-	box-shadow: inset 0 0 0 3px #fff, 0 1px 3px -0.4px rgba(0,0,0, .33);
-	border: none;
-	min-width: 14px;
-	min-height: 20px;
-	background: none;
-	border-radius: 3px;
-}
+            this.get_style_context ().add_class ("hue");
+        }
 
-scale.hue contents trough {
-    background: linear-gradient(90deg,
-        rgba(255,0,0,1) 0%,
-        rgba(255,255,0,1) 16.66%,
-        rgba(0,255,0,1) 33.33%,
-        rgba(0,255,255,1) 50%,
-        rgba(0,0,255,1) 66.66%,
-        rgba(255,0,255,1) 83.33%,
-        rgba(240,0,0,1) 100%
-    );
+    }
+
 }
