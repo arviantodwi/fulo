@@ -61,3 +61,9 @@ scale.hue contents trough {
         rgba(240,0,0,1) 100%
     );
 }
+
+scale.opacity contents trough {
+    background:
+        linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%),
+        url("/com/github/arviantodwi/fulo/opacity-range-bg.png") left top/7px 7px;
+}

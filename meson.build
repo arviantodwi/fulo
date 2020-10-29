@@ -36,6 +36,7 @@ executable(
     'src/Widgets/ColorName.vala',
     'src/Widgets/ColorRegion.vala',
     'src/Widgets/ColorSwatch.vala',
+    'src/Widgets/OpacityRange.vala',
     'src/Widgets/PickerButton.vala',
     'src/Widgets/PresetSwatches.vala',
     'src/Widgets/CustomSwatches.vala',
