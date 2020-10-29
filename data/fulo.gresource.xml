@@ -4,5 +4,7 @@
     <file alias="css/main.css">css/main.css</file>
 
     <file alias="dropper.svg">resources/dropper.svg</file>
+
+    <file alias="opacity-range-bg.png">resources/opacity-range-bg.png</file>
   </gresource>
 </gresources>
