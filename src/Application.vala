@@ -54,13 +54,13 @@ namespace Fulo {
         protected override void activate () {
             load_css ();
             
-            Gtk.Box root_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-            SwatchesBox swatches = new SwatchesBox ();
-
-            root_box.pack_start (swatches, false, true, 0);
+            // Default Icon Theme
+            weak Gtk.IconTheme default_theme = Gtk.IconTheme.get_default ();
+            default_theme.add_resource_path ("/com/github/arviantodwi/fulo");
             
+            Gtk.Box color_picker = new ColorPickerView ();
             main_window = new MainWindow (this);
-            main_window.add (root_box);
+            main_window.add (color_picker);
             main_window.show_all ();
         }
 

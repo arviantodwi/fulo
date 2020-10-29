@@ -12,6 +12,10 @@ asresources = gnome.compile_resources (
     c_name: 'as'
 )
 
+# Use math library
+cc = meson.get_compiler('c')
+math_dep = cc.find_library('m', required: false)
+
 # Set our translation domain
 add_global_arguments(
     '-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()),
@@ -24,14 +28,24 @@ executable(
     meson.project_name(),
     'src/Application.vala',
     'src/MainWindow.vala',
-    'src/Enums/PresetColor.vala',
-    'src/Views/SwatchesBox.vala',
+    'src/Helpers.vala',
+    # 'src/Enums/PresetColor.vala',
+    'src/Views/ColorPickerView.vala',
+    # 'src/Views/PickerBox.vala',
+    'src/Widgets/HexEntry.vala',
+    'src/Widgets/ColorName.vala',
+    'src/Widgets/ColorRegion.vala',
     'src/Widgets/ColorSwatch.vala',
+    'src/Widgets/PickerButton.vala',
+    'src/Widgets/PresetSwatches.vala',
+    'src/Widgets/CustomSwatches.vala',
     asresources,
     dependencies: [
+        dependency('cairo'),
         dependency('gtk+-3.0'),
         dependency('glib-2.0'),
-        dependency('granite', version: '>=5.5')
+        dependency('granite', version: '>=5.5'),
+        math_dep
     ],
     install: true
 )

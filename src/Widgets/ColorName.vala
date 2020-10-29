@@ -19,18 +19,36 @@
  * Authored by: Arvianto Dwi Wicaksono <arvianto.dwi@gmail.com>
  */
 
-.swatches-box {
-    background-color: #fff;
-}
+namespace Fulo.Widgets {
 
-.swatches-section-label {
-    font-size: 1rem;
-    font-weight: bold;
-    letter-spacing: -0.3px;
-    color: #656565;
-}
+    public class ColorName : Gtk.Box {
 
-.color-name-title {
-    font-size: 11px;
-    font-style: italic;
+        private Gtk.Label _color_name;
+
+        public ColorName () {
+            Object (
+                orientation: Gtk.Orientation.VERTICAL,
+                spacing: 0,
+                margin_start: 10
+            );
+        }
+
+        construct {
+            Gtk.Label title = new Gtk.Label ("Color name:");
+            title.get_style_context ().add_class ("color-name-title");
+
+            _color_name = new Gtk.Label (null) {
+                xalign = 0.0f
+            };
+
+            this.pack_start (title, false, true, 0);
+            this.pack_end (_color_name, false, true, 0);
+        }
+
+        public void set_color_name (string name) {
+            _color_name.label = name;
+        }
+
+    }
+
 }
