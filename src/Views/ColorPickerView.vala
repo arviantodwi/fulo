@@ -56,11 +56,23 @@ namespace Fulo.Views {
             info_box.pack_start (color_name, false, true, 0);
             info_box.pack_end (picker_button, false, true, 0);
 
+            Gtk.Box tool_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
+                margin_start = 20,
+                margin_end = 20,
+                margin_top = 3
+            };
+            HueRange hue_range = new HueRange ();
+            OpacityRange opacity_range = new OpacityRange ();
+            Gtk.Box scales_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            scales_box.pack_start (hue_range, false, true, 0);
+            scales_box.pack_end (opacity_range, false, true, 0);
+            tool_box.pack_start (scales_box, false, true, 0);
 
             ColorRegion color_region = new ColorRegion ();
             Gtk.Box right_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             right_box.pack_start (info_box, false, true, 0);
             right_box.pack_start (color_region, false, true, 0);
+            right_box.pack_start (tool_box, false, true, 0);
             
             pack_start (left_box, false, true, 0);
             pack_end (right_box, false, true, 0);
