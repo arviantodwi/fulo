@@ -19,36 +19,32 @@
  * Authored by: Arvianto Dwi Wicaksono <arvianto.dwi@gmail.com>
  */
 
-namespace Fulo.Widgets {
+namespace Fulo.Enums {
 
-    public class ColorName : Gtk.Box {
+    public enum Format {
+        RGB,
+        RGBA,
+        HSV;
 
-        private Gtk.Label _color_name;
-
-        public ColorName () {
-            Object (
-                orientation: Gtk.Orientation.VERTICAL,
-                spacing: 0,
-                margin_start: 10
-            );
+        public static string get_real_format_name (string name) {
+            switch (name) {
+                case "FULO_ENUMS_FORMAT_RGB":
+                case "FULO_ENUMS_FORMAT_RGBA":
+                case "FULO_ENUMS_FORMAT_HSV":
+                    string[] name_segments = name.split ("_");
+                    return name_segments[name_segments.length - 1];
+                default:
+                    return "";
+            }
         }
 
-        construct {
-            Gtk.Label title = new Gtk.Label ("Color name:");
-            title.get_style_context ().add_class ("color-name-title");
-
-            _color_name = new Gtk.Label (null) {
-                xalign = 0.0f
+        public static Format[] all () {
+            return {
+                RGB,
+                RGBA,
+                HSV
             };
-
-            this.pack_start (title, true, true, 0);
-            this.pack_start (_color_name, true, true, 0);
         }
-
-        public void set_color_name (string name) {
-            _color_name.label = name;
-        }
-
     }
 
 }

@@ -32,7 +32,8 @@ namespace Fulo {
                 application: app,
                 icon_name: Application.instance.application_id,
                 title: WINDOW_TITLE,
-                window_position: Gtk.WindowPosition.CENTER
+                window_position: Gtk.WindowPosition.CENTER,
+                resizable: false
             );
         }
 

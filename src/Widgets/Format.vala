@@ -21,32 +21,32 @@
 
 namespace Fulo.Widgets {
 
-    public class ColorName : Gtk.Box {
+    public class Format : Gtk.Box {
 
-        private Gtk.Label _color_name;
-
-        public ColorName () {
-            Object (
-                orientation: Gtk.Orientation.VERTICAL,
-                spacing: 0,
-                margin_start: 10
-            );
+        public Format () {
+            Object ();
         }
 
         construct {
-            Gtk.Label title = new Gtk.Label ("Color name:");
-            title.get_style_context ().add_class ("color-name-title");
+            this.orientation = Gtk.Orientation.HORIZONTAL;
+            this.spacing = 0;
 
-            _color_name = new Gtk.Label (null) {
-                xalign = 0.0f
+            Gtk.Entry entry = new Gtk.Entry () {
+                editable = false,
+                secondary_icon_name = "edit-copy"
             };
+            Gtk.ComboBoxText combo = new Gtk.ComboBoxText () {
+                margin_start = 10
+            };
+            foreach (unowned Enums.Format format in Enums.Format.all ()) {
+                combo.append_text (
+                    Enums.Format.get_real_format_name (format.to_string ())
+                );
+            }
+            combo.set_active (0);
 
-            this.pack_start (title, true, true, 0);
-            this.pack_start (_color_name, true, true, 0);
-        }
-
-        public void set_color_name (string name) {
-            _color_name.label = name;
+            this.pack_start (entry, true, true, 0);
+            this.pack_end (combo, true, true, 0);
         }
 
     }
