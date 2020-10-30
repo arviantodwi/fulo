@@ -63,19 +63,29 @@ namespace Fulo.Views {
             };
             HueRange hue_range = new HueRange ();
             OpacityRange opacity_range = new OpacityRange ();
+            Contrast contrast = new Contrast () {
+                margin_start = 10
+            };
             Gtk.Box scales_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            scales_box.pack_start (hue_range, false, true, 0);
-            scales_box.pack_end (opacity_range, false, true, 0);
-            tool_box.pack_start (scales_box, false, true, 0);
+            scales_box.pack_start (hue_range, true, true, 0);
+            scales_box.pack_end (opacity_range, true, true, 0);
+            tool_box.pack_start (scales_box, true, true, 0);
+            tool_box.pack_end (contrast, false);
 
             ColorRegion color_region = new ColorRegion ();
+            Format format = new Format () {
+                margin_start = 20,
+                margin_end = 20,
+                margin_bottom = 20
+            };
             Gtk.Box right_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             right_box.pack_start (info_box, false, true, 0);
             right_box.pack_start (color_region, false, true, 0);
             right_box.pack_start (tool_box, false, true, 0);
+            right_box.pack_end (format, false);
             
             pack_start (left_box, false, true, 0);
-            pack_end (right_box, false, true, 0);
+            pack_end (right_box, true, true, 0);
 
             preset.preset_color_clicked.connect ((color) => {
                 double hue = Helpers.get_hue (color);

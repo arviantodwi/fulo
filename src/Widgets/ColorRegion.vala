@@ -36,6 +36,9 @@ namespace Fulo.Widgets {
 
         construct {
             region.parse ("#F00");
+
+            this.hexpand = true;
+            this.halign = Gtk.Align.FILL;
         }
 
         public override bool draw (Cairo.Context context) {
