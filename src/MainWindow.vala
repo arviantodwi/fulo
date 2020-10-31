@@ -21,52 +21,49 @@
 
 namespace Fulo {
 
-    public class MainWindow : Gtk.Window {
+    class MainWindow : Gtk.Window {
 
-        // TODO Instantiate Glib.Settings
-
+        //  Properties
         private const string WINDOW_TITLE = "Fulo";
+        private Gtk.Settings gtk_settings = Gtk.Settings.get_default ();
+        // TODO Instantiate Glib.Settings
+        
+        //  UI
+        private Gtk.HeaderBar header_bar;
+        private Granite.ModeSwitch theme_switch;
 
+        //  Instantiation
         public MainWindow (Gtk.Application app) {
-            Object (
-                application: app,
-                icon_name: Application.instance.application_id,
-                title: WINDOW_TITLE,
-                window_position: Gtk.WindowPosition.CENTER,
-                resizable: false
-            );
+            this.application = app;
+            this.resizable = false;
+            this.window_position = Gtk.WindowPosition.CENTER;
+            this.icon_name = Application.instance.application_id;
         }
-
+        
         static construct {
             // TODO Initialize settings for application states
         }
-
+        
         construct {
-            Gtk.Settings gtk_settings = Gtk.Settings.get_default ();
-            //  Granite.Settings granite_settings = Granite.Settings.get_default();
-
-            default_width = 580;
-            //  default_height = 426;
-
-            Granite.ModeSwitch theme_switch = new Granite.ModeSwitch.from_icon_name (
+            //  Theme Switch
+            theme_switch = new Granite.ModeSwitch.from_icon_name (
                 "display-brightness-symbolic",
                 "weather-clear-night-symbolic"
-            ) {
-                primary_icon_tooltip_text = _("Light theme"),
-                secondary_icon_tooltip_text = _("Dark theme"),
-                valign = Gtk.Align.CENTER
-            };
+            );
+            theme_switch.primary_icon_tooltip_text = _("Light theme");
+            theme_switch.secondary_icon_tooltip_text = _("Dark theme");
+            theme_switch.valign = Gtk.Align.CENTER;
             theme_switch.bind_property ("active", gtk_settings, "gtk_application_prefer_dark_theme");
             
-            Gtk.HeaderBar header_bar = new Gtk.HeaderBar () {
-                show_close_button = true,
-                has_subtitle = false
-            };
+            //  Custom Header Bar
+            header_bar = new Gtk.HeaderBar ();
+            header_bar.show_close_button = true;
+            header_bar.title = WINDOW_TITLE;
+            header_bar.has_subtitle = false;
             header_bar.pack_end(theme_switch);
             header_bar.pack_end(new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
 
             this.set_titlebar (header_bar);
-            this.show_all ();
         }
 
     }

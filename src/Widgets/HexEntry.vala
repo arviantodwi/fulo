@@ -31,15 +31,12 @@ namespace Fulo.Widgets {
             }
         """;
 
-        public HexEntry () {
-            Object (
-                text: "#FF0000",
-                max_length: 7,
-                editable: true,
-                height_request: 35,
-                secondary_icon_name: "edit-copy",
-                width_chars: 12
-            );
+        public HexEntry (string hex) {
+            this.text = hex;
+            this.max_length = 7;
+            this.editable = true;
+            this.secondary_icon_name = "edit-copy";
+            this.width_chars = 12;
         }
 
         construct {
@@ -56,6 +53,10 @@ namespace Fulo.Widgets {
                 critical (e.message);
                 return;
             }
+        }
+
+        public void set_value (string hex) {
+            this.text = hex;
         }
         
         //  public override bool enter_notify_event (Gdk.EventCrossing e) {

@@ -23,20 +23,11 @@ using Fulo.Views;
 
 namespace Fulo {
 
-    public class Application : Gtk.Application {
-
+    class Application : Gtk.Application {
+        
+        //  Properties
         // TODO Instantiate Glib.Settings
-
         private const string APP_ID = "com.github.arviantodwi.fulo";
-        private MainWindow main_window;
-
-        public Application () {
-            Object (
-                application_id: APP_ID,
-                flags: ApplicationFlags.FLAGS_NONE
-            );
-        }
-
         private static Application _instance = null;
         public static Application instance {
             get {
@@ -46,36 +37,44 @@ namespace Fulo {
                 return _instance;
             }
         }
-
+        
+        //  UI
+        weak Gtk.IconTheme theme;
+        private MainWindow main_window;
+        private Gtk.CssProvider provider;
+        
+        //  Instantiation
+        public Application () {
+            this.application_id = APP_ID;
+            this.flags = ApplicationFlags.FLAGS_NONE;
+        }
+        
         static construct {
             // TODO Initialize settings for application states
         }
 
         protected override void activate () {
-            load_css ();
+            // Set default Icon Theme
+            theme = Gtk.IconTheme.get_default ();
+            theme.add_resource_path ("/com/github/arviantodwi/fulo");
             
-            // Default Icon Theme
-            weak Gtk.IconTheme default_theme = Gtk.IconTheme.get_default ();
-            default_theme.add_resource_path ("/com/github/arviantodwi/fulo");
-            
-            Gtk.Box color_picker = new ColorPickerView ();
-            main_window = new MainWindow (this);
-            main_window.add (color_picker);
-            main_window.show_all ();
-        }
-
-        public static int main (string[] args) {
-            return new Application ().run (args);
-        }
-
-        private static void load_css () {
-            Gtk.CssProvider provider = new Gtk.CssProvider ();
+            //  Load custom CSS
+            provider = new Gtk.CssProvider ();
             provider.load_from_resource ("/com/github/arviantodwi/fulo/css/main.css");
             Gtk.StyleContext.add_provider_for_screen (
                 Gdk.Screen.get_default (),
                 provider,
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
             );
+            
+            //  Show app in main window
+            main_window = new MainWindow (this);
+            main_window.add (new ColorPickerView ());
+            main_window.show_all ();
+        }
+
+        public static int main (string[] args) {
+            return new Application ().run (args);
         }
 
     }

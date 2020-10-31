@@ -23,69 +23,90 @@ using Fulo.Widgets;
 
 namespace Fulo.Views {
 
-    public class ColorPickerView : Gtk.Box {
+    class ColorPickerView : Gtk.Box {
 
-        private Gdk.RGBA current_color;
+        //  Properties
+        public Gdk.RGBA current_color { get; private set; }
 
+        //  UI
+        private PresetSwatches preset;
+        private CustomSwatches custom;
+        private HexEntry hex_entry;
+        private ColorName color_name;
+        private PickerButton picker_button;
+        private HueRange hue_range;
+        private OpacityRange opacity_range;
+        private Contrast contrast;
+        private ColorRegion color_region;
+        private Format format;
+
+        //  Instantiation
         public ColorPickerView () {
-            Object (
-                orientation: Gtk.Orientation.HORIZONTAL,
-                spacing: 0
-            );
+            this.spacing = 0;
+            this.orientation = Gtk.Orientation.HORIZONTAL;
         }
 
         construct {
-            PresetSwatches preset = new PresetSwatches ();
-            CustomSwatches custom = new CustomSwatches ();
+            //  Initialize current color
+            string hex = "#FF0000";
+            current_color.parse (hex);
+            
+            //  Set all widgets
+            preset = new PresetSwatches ();
+            custom = new CustomSwatches ();
+            hex_entry = new HexEntry (hex);
+            color_name = new ColorName ("Red");
+            picker_button = new PickerButton ();
+            color_region = new ColorRegion ();
+            hue_range = new HueRange ();
+            opacity_range = new OpacityRange ();
+            contrast = new Contrast ();
+            format = new Format ();
+
+            Gtk.Label color_name_heading = new Gtk.Label ("<small>Known as</small>");
+            color_name_heading.get_style_context ().add_class ("dim-label");
+            color_name_heading.use_markup = true;
+            color_name_heading.valign = Gtk.Align.END;
+
+            //  Configuring widgets containers
             Gtk.Box left_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             left_box.get_style_context ().add_class ("swatches-box");
             left_box.pack_start (preset, false, true, 10);
             left_box.pack_end (custom, false, true, 10);
+
+            Gtk.Grid entry_grid = new Gtk.Grid ();
+            entry_grid.column_spacing = 10;
+            entry_grid.attach (hex_entry, 0, 0, 1, 2);
+            entry_grid.attach_next_to (color_name_heading, hex_entry, Gtk.PositionType.RIGHT);
+            entry_grid.attach_next_to (color_name, color_name_heading, Gtk.PositionType.BOTTOM);
             
-            Gtk.Box info_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
-                margin_start = 20,
-                margin_end = 20,
-                margin_top = 20,
-                margin_bottom = 10
-            };
-            HexEntry hex_entry = new HexEntry ();
-            ColorName color_name = new ColorName ();
-            color_name.set_color_name ("Red");
-            PickerButton picker_button = new PickerButton ();
-            info_box.pack_start (hex_entry, false, true, 0);
-            info_box.pack_start (color_name, false, true, 0);
-            info_box.pack_end (picker_button, false, true, 0);
-
-            Gtk.Box tool_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
-                margin_start = 20,
-                margin_end = 20,
-                margin_top = 3
-            };
-            HueRange hue_range = new HueRange ();
-            OpacityRange opacity_range = new OpacityRange ();
-            Contrast contrast = new Contrast () {
-                margin_start = 10
-            };
+            Gtk.Box right_first_row = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            right_first_row.margin_start = 20;
+            right_first_row.margin_end = 20;
+            right_first_row.margin_top = 20;
+            right_first_row.margin_bottom = 10;
+            right_first_row.pack_start (entry_grid, false);
+            right_first_row.pack_end (picker_button, false);
+            
             Gtk.Box scales_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            scales_box.pack_start (hue_range, true, true, 0);
-            scales_box.pack_end (opacity_range, true, true, 0);
-            tool_box.pack_start (scales_box, true, true, 0);
-            tool_box.pack_end (contrast, false);
-
-            ColorRegion color_region = new ColorRegion ();
-            Format format = new Format () {
-                margin_start = 20,
-                margin_end = 20,
-                margin_bottom = 20
-            };
+            scales_box.pack_start (hue_range, true);
+            scales_box.pack_end (opacity_range, true);
+            
+            Gtk.Box right_third_row = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            right_third_row.margin_start = 20;
+            right_third_row.margin_end = 20;
+            right_third_row.margin_top = 5;
+            right_third_row.pack_start (scales_box, true);
+            right_third_row.pack_end (contrast, false);
+            
             Gtk.Box right_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            right_box.pack_start (info_box, false, true, 0);
-            right_box.pack_start (color_region, false, true, 0);
-            right_box.pack_start (tool_box, false, true, 0);
+            right_box.pack_start (right_first_row, false);
+            right_box.pack_start (color_region, false);
+            right_box.pack_start (right_third_row, false);
             right_box.pack_end (format, false);
             
-            pack_start (left_box, false, true, 0);
-            pack_end (right_box, true, true, 0);
+            this.pack_start (left_box, false);
+            this.pack_end (right_box, true);
 
             preset.preset_color_clicked.connect ((color) => {
                 double hue = Helpers.get_hue (color);

@@ -26,7 +26,7 @@ namespace Fulo.Widgets {
         private Gdk.RGBA _color;
 
         public Contrast () {
-            Object ();
+            this.margin_start = 10;
         }
 
         construct {
