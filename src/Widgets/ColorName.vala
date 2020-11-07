@@ -21,32 +21,21 @@
 
 namespace Fulo.Widgets {
 
-    public class ColorName : Gtk.Box {
+    public class ColorName : Gtk.Label {
 
-        private Gtk.Label _color_name;
-
-        public ColorName () {
-            Object (
-                orientation: Gtk.Orientation.VERTICAL,
-                spacing: 0,
-                margin_start: 10
-            );
+        //  Instantiation
+        public ColorName (string color_name) {
+            this.label = color_name;
+            this.xalign = 0.0f;
+            this.valign = Gtk.Align.START;
         }
-
+        
         construct {
-            Gtk.Label title = new Gtk.Label ("Color name:");
-            title.get_style_context ().add_class ("color-name-title");
-
-            _color_name = new Gtk.Label (null) {
-                xalign = 0.0f
-            };
-
-            this.pack_start (title, true, true, 0);
-            this.pack_start (_color_name, true, true, 0);
+            //
         }
 
-        public void set_color_name (string name) {
-            _color_name.label = name;
+        public void set_color_name (string color_name) {
+            this.label = color_name;
         }
 
     }

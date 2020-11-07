@@ -24,7 +24,9 @@ namespace Fulo.Widgets {
     public class Format : Gtk.Box {
 
         public Format () {
-            Object ();
+            this.margin_start = 20;
+            this.margin_end = 20;
+            this.margin_bottom = 20;
         }
 
         construct {

@@ -23,6 +23,23 @@ namespace Fulo {
 
     public class Helpers : Object {
 
+        public static Gdk.RGBA[] get_preset_colors () {
+            string[] preset_colors = {
+                "#000000", "#5F5F5F", "#9A9A9A", "#CBCBCB", "#E1E1E1", "#F8F8F8",
+                "#FF0D0D", "#FF8A1D", "#2AA677", "#006EF8", "#7F26FF", "#F8209C",
+                "#FF5F5F", "#FFB46E", "#50D29F", "#4B9BFF", "#AF78FF", "#F470BB",
+                "#FFB1B1", "#FFDEC0", "#91E2C3", "#9DC8FF", "#DFCAFF", "#F7BEDF",
+                "#FFD9D9", "#FFF3E8", "#B1EBD5", "#C4DFFF", "#F8F2FF", "#FCEAF3"
+            };
+
+            Gdk.RGBA[] colors = new Gdk.RGBA[preset_colors.length];
+            for (var i = 0; i < preset_colors.length; i += 1) {
+                colors[i].parse (preset_colors[i]);
+            }
+
+            return colors;
+        }
+
         public static double get_hue (Gdk.RGBA color) {
             double r = color.red;
             double g = color.green;
@@ -48,7 +65,13 @@ namespace Fulo {
             return hue;
         }
 
-        //  public rgb_to_hsv () {}
+        public static string rgb_to_hex (double red, double green, double blue) {
+            string r_hex = "%02x".printf ((uint) (red * 255));
+            string g_hex = "%02x".printf ((uint) (green * 255));
+            string b_hex = "%02x".printf ((uint) (blue * 255));
+
+            return @"#$r_hex$g_hex$b_hex".up ();
+        }
 
         public static Gdk.RGBA hsv_to_rgb (double h, double s, double v) {
             double chroma = v * s;

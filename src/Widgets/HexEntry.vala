@@ -23,39 +23,21 @@ namespace Fulo.Widgets {
 
     public class HexEntry : Gtk.Entry {
 
-        private const string CSS = """
-            entry {
-                font-size: 16px;
-                font-weight: 600;
-                color: #5B5B5B;
-            }
-        """;
-
-        public HexEntry () {
-            Object (
-                text: "#FF0000",
-                max_length: 7,
-                editable: true,
-                height_request: 35,
-                secondary_icon_name: "edit-copy",
-                width_chars: 12
-            );
+        construct {
+            this.max_length = 7;
+            this.editable = true;
+            this.secondary_icon_name = "edit-copy";
+            this.width_chars = 12;
+            this.get_style_context ().add_class ("hex");
+            //  this.add_events (Gdk.EventMask.ENTER_NOTIFY_MASK);
         }
 
-        construct {
-            //  this.add_events (Gdk.EventMask.ENTER_NOTIFY_MASK);
+        public HexEntry (string hex) {
+            this.text = hex;
+        }
 
-            Gtk.CssProvider provider = new Gtk.CssProvider ();
-            try {
-                provider.load_from_data (CSS, CSS.length);
-                get_style_context ().add_provider (
-                    provider,
-                    Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-                );
-            } catch (GLib.Error e) {
-                critical (e.message);
-                return;
-            }
+        public void set_value (string hex) {
+            this.text = hex;
         }
         
         //  public override bool enter_notify_event (Gdk.EventCrossing e) {
