@@ -34,8 +34,6 @@ namespace Fulo.Widgets.Editor {
 
         construct {
             this.set_size_request (width, height);
-            this.margin_start = 20;
-            this.margin_end = 20;
 
             instance = this;
 

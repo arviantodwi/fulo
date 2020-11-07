@@ -26,12 +26,29 @@ namespace Fulo.Widgets.Editor {
         //  Properties
 
         //  Instance
+        private Chooser chooser;
+        private HueSlider hue_slider;
+        private AlphaSlider alpha_slider;
+        private Contrast contrast;
 
-        construct {}
+        construct {
+            this.margin_start = 20;
+            this.margin_end = 20;
+            this.column_spacing = 10;
+            this.row_spacing = 7;
+
+            chooser = new Chooser ();
+            hue_slider = new HueSlider ();
+            alpha_slider = new AlphaSlider ();
+            contrast = new Contrast ();
+
+            this.attach (chooser, 0, 0, 2, 1);
+            this.attach_next_to (hue_slider, chooser, Gtk.PositionType.BOTTOM, 1, 1);
+            this.attach_next_to (alpha_slider, hue_slider, Gtk.PositionType.BOTTOM, 1, 1);
+            this.attach_next_to (contrast, hue_slider, Gtk.PositionType.RIGHT, 1, 2);
+        }
 
         public ColorEditor () {}
-
-        
 
     }
 

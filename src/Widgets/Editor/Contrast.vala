@@ -26,7 +26,7 @@ namespace Fulo.Widgets.Editor {
         private Gdk.RGBA _color;
 
         public Contrast () {
-            this.margin_start = 10;
+            //  this.margin_start = 10;
         }
 
         construct {
