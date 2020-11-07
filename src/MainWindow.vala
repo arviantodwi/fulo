@@ -35,7 +35,7 @@ namespace Fulo {
         //  Instantiation
         public MainWindow (Gtk.Application app) {
             this.application = app;
-            this.resizable = false;
+            //  this.resizable = false;
             this.window_position = Gtk.WindowPosition.CENTER;
             this.icon_name = Application.instance.application_id;
         }

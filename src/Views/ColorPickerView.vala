@@ -20,17 +20,18 @@
  */
 
 using Fulo.Widgets;
+using Granite.Widgets;
 
 namespace Fulo.Views {
 
-    class ColorPickerView : Gtk.Box {
+    class ColorPickerView : Gtk.Overlay {
 
         //  Properties
         public Gdk.RGBA current_color { get; private set; }
 
         //  UI
-        private PresetSwatches preset;
-        private CustomSwatches custom;
+        private SwatchGroup preset;
+        private SwatchGroup custom;
         private HexEntry hex_entry;
         private ColorName color_name;
         private PickerButton picker_button;
@@ -39,11 +40,11 @@ namespace Fulo.Views {
         private Contrast contrast;
         private ColorRegion color_region;
         private Format format;
+        private Toast toast;
 
         //  Instantiation
         public ColorPickerView () {
-            this.spacing = 0;
-            this.orientation = Gtk.Orientation.HORIZONTAL;
+            //  
         }
 
         construct {
@@ -52,8 +53,8 @@ namespace Fulo.Views {
             current_color.parse (hex);
             
             //  Set all widgets
-            preset = new PresetSwatches ();
-            custom = new CustomSwatches ();
+            preset = new SwatchGroup.make_preset (Helpers.get_preset_colors (), _("Preset Colors"), 5);
+            custom = new SwatchGroup (_("Custom Colors"));
             hex_entry = new HexEntry (hex);
             color_name = new ColorName ("Red");
             picker_button = new PickerButton ();
@@ -62,8 +63,17 @@ namespace Fulo.Views {
             opacity_range = new OpacityRange ();
             contrast = new Contrast ();
             format = new Format ();
+            
+            toast = new Toast (_("Color was pressed!"));
+            toast.set_default_action (_("Do Things"));
 
-            Gtk.Label color_name_heading = new Gtk.Label ("<small>Known as</small>");
+            Gtk.Button add_custom_color_button = new Gtk.Button.with_label (_("Add custom color"));
+            add_custom_color_button.margin_start = 20;
+            add_custom_color_button.margin_end = 20;
+            add_custom_color_button.margin_top = 15;
+            add_custom_color_button.margin_bottom = 20;
+
+            Gtk.Label color_name_heading = new Gtk.Label ("<small>" + _("Known as") + "</small>");
             color_name_heading.get_style_context ().add_class ("dim-label");
             color_name_heading.use_markup = true;
             color_name_heading.valign = Gtk.Align.END;
@@ -72,7 +82,8 @@ namespace Fulo.Views {
             Gtk.Box left_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             left_box.get_style_context ().add_class ("swatches-box");
             left_box.pack_start (preset, false, true, 10);
-            left_box.pack_end (custom, false, true, 10);
+            left_box.pack_start (custom, false);
+            left_box.pack_start (add_custom_color_button, false);
 
             Gtk.Grid entry_grid = new Gtk.Grid ();
             entry_grid.column_spacing = 10;
@@ -99,22 +110,33 @@ namespace Fulo.Views {
             right_third_row.pack_start (scales_box, true);
             right_third_row.pack_end (contrast, false);
             
+            //  Gtk.ColorChooserWidget chooser = new Gtk.ColorChooserWidget ();
+            //  chooser.show_editor = true;
             Gtk.Box right_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             right_box.pack_start (right_first_row, false);
             right_box.pack_start (color_region, false);
             right_box.pack_start (right_third_row, false);
             right_box.pack_end (format, false);
             
-            this.pack_start (left_box, false);
-            this.pack_end (right_box, true);
+            Gtk.Box root_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            root_box.pack_start (left_box, false);
+            root_box.pack_end (right_box, true);
 
-            preset.preset_color_clicked.connect ((color) => {
-                double hue = Helpers.get_hue (color);
-                color_region.set_region (Helpers.hsv_to_rgb (hue, 1, 1));
-                color_region.queue_draw ();
+            this.add (root_box);
+            this.add_overlay (toast);
+
+            preset.color_clicked.connect ((color) => {
+                toast.send_notification ();
+                weak double hue = Helpers.get_hue (color);
+                //  color_region.update (Helpers.hsv_to_rgb (hue, 1, 1));
+
+                weak double r = color.red;
+                weak double g = color.green;
+                weak double b = color.blue;
+                hex_entry.set_value (Helpers.rgb_to_hex (r, g, b));
             });
             
-            //  custom.color_clicked.connect (() => {});
+            custom.color_clicked.connect (() => {});
         }
 
     }
