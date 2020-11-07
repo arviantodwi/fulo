@@ -35,10 +35,10 @@ namespace Fulo.Views {
         private HexEntry hex_entry;
         private ColorName color_name;
         private PickerButton picker_button;
-        private HueRange hue_range;
-        private OpacityRange opacity_range;
-        private Contrast contrast;
-        private ColorRegion color_region;
+        private Editor.Chooser color_region;
+        private Editor.HueSlider hue_range;
+        private Editor.AlphaSlider opacity_range;
+        private Editor.Contrast contrast;
         private Format format;
         private Toast toast;
 
@@ -58,10 +58,10 @@ namespace Fulo.Views {
             hex_entry = new HexEntry (hex);
             color_name = new ColorName ("Red");
             picker_button = new PickerButton ();
-            color_region = new ColorRegion ();
-            hue_range = new HueRange ();
-            opacity_range = new OpacityRange ();
-            contrast = new Contrast ();
+            color_region = new Editor.Chooser ();
+            hue_range = new Editor.HueSlider ();
+            opacity_range = new Editor.AlphaSlider ();
+            contrast = new Editor.Contrast ();
             format = new Format ();
             
             toast = new Toast (_("Color was pressed!"));

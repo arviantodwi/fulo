@@ -19,11 +19,11 @@
  * Authored by: Arvianto Dwi Wicaksono <arvianto.dwi@gmail.com>
  */
 
-namespace Fulo.Widgets {
+namespace Fulo.Widgets.Editor {
 
-    public class OpacityRange : Gtk.Scale {
+    public class AlphaSlider : Gtk.Scale {
 
-        public OpacityRange () {
+        public AlphaSlider () {
             Object ();
         }
 

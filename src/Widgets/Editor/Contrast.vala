@@ -19,7 +19,7 @@
  * Authored by: Arvianto Dwi Wicaksono <arvianto.dwi@gmail.com>
  */
 
-namespace Fulo.Widgets {
+namespace Fulo.Widgets.Editor {
 
     public class Contrast : Gtk.Box {
 

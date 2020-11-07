@@ -26,22 +26,26 @@ add_global_arguments(
 # list the dependencies we need, and install
 executable(
     meson.project_name(),
-    'src/Application.vala',
-    'src/MainWindow.vala',
+    # Fulo
     'src/Helpers.vala',
-    # 'src/Enums/PresetColor.vala',
+    'src/MainWindow.vala',
+    'src/Application.vala',
+    # Fulo.Enums
     'src/Enums/Format.vala',
+    # Fulo.Views
     'src/Views/ColorPickerView.vala',
+    # Fulo.Widgets
     'src/Widgets/Format.vala',
-    'src/Widgets/Contrast.vala',
     'src/Widgets/HexEntry.vala',
-    'src/Widgets/HueRange.vala',
     'src/Widgets/ColorName.vala',
-    'src/Widgets/ColorRegion.vala',
-    'src/Widgets/OpacityRange.vala',
     'src/Widgets/PickerButton.vala',
-    # 'src/Widgets/PresetSwatches.vala',
-    # 'src/Widgets/CustomSwatches.vala',
+    # Fulo.Widgets.Editor
+    'src/Widgets/Editor/Chooser.vala',
+    'src/Widgets/Editor/Contrast.vala',
+    'src/Widgets/Editor/HueSlider.vala',
+    'src/Widgets/Editor/AlphaSlider.vala',
+    'src/Widgets/Editor/ColorEditor.vala',
+    # Fulo.Widgets.Swatch
     'src/Widgets/Swatch/SwatchItem.vala',
     'src/Widgets/Swatch/SwatchGroup.vala',
     asresources,

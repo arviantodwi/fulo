@@ -19,11 +19,11 @@
  * Authored by: Arvianto Dwi Wicaksono <arvianto.dwi@gmail.com>
  */
 
-namespace Fulo.Widgets {
+namespace Fulo.Widgets.Editor {
 
-    public class HueRange : Gtk.Scale {
+    public class HueSlider : Gtk.Scale {
 
-        public HueRange () {
+        public HueSlider () {
             Object ();
         }
 

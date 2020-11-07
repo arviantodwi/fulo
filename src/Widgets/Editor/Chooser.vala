@@ -19,16 +19,16 @@
  * Authored by: Arvianto Dwi Wicaksono <arvianto.dwi@gmail.com>
  */
 
-namespace Fulo.Widgets {
+namespace Fulo.Widgets.Editor {
 
-    public class ColorRegion : Gtk.DrawingArea {
+    public class Chooser : Gtk.DrawingArea {
 
         //  Properties
         protected static double xpos = 306;
         protected static double ypos = 0;
         protected static uint16 width = 306;
         protected static uint16 height = 200;
-        private static ColorRegion instance;
+        private static Chooser instance;
         private static Cairo.Surface surface;
         private static Gtk.GestureDrag gesture;
 
