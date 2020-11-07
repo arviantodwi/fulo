@@ -26,6 +26,7 @@ namespace Fulo.Widgets {
         public Format () {
             this.margin_start = 20;
             this.margin_end = 20;
+            this.margin_top = 16;
             this.margin_bottom = 20;
         }
 
