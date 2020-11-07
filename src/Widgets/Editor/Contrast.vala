@@ -19,14 +19,14 @@
  * Authored by: Arvianto Dwi Wicaksono <arvianto.dwi@gmail.com>
  */
 
-namespace Fulo.Widgets {
+namespace Fulo.Widgets.Editor {
 
     public class Contrast : Gtk.Box {
 
         private Gdk.RGBA _color;
 
         public Contrast () {
-            this.margin_start = 10;
+            //  this.margin_start = 10;
         }
 
         construct {

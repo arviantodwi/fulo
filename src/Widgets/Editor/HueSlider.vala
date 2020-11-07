@@ -19,23 +19,23 @@
  * Authored by: Arvianto Dwi Wicaksono <arvianto.dwi@gmail.com>
  */
 
-namespace Fulo.Widgets {
+namespace Fulo.Widgets.Editor {
 
-    public class OpacityRange : Gtk.Scale {
+    public class HueSlider : Gtk.Scale {
 
-        public OpacityRange () {
+        public HueSlider () {
             Object ();
         }
 
         construct {
             this.orientation = Gtk.Orientation.HORIZONTAL;
-            this.adjustment = new Gtk.Adjustment (1, 0, 1, 0.01, 100, 0);
+            this.adjustment = new Gtk.Adjustment (360, 0, 360, 1, 360, 0);
             this.width_request = 193;
             this.draw_value = false;
-            this.digits = 2;
+            this.digits = 4;
             this.has_origin = false;
 
-            this.get_style_context ().add_class ("opacity");
+            this.get_style_context ().add_class ("hue");
         }
 
     }

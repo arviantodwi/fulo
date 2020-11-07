@@ -19,37 +19,23 @@
  * Authored by: Arvianto Dwi Wicaksono <arvianto.dwi@gmail.com>
  */
 
-namespace Fulo.Widgets {
+namespace Fulo.Widgets.Editor {
 
-    public class Format : Gtk.Box {
+    public class AlphaSlider : Gtk.Scale {
 
-        public Format () {
-            this.margin_start = 20;
-            this.margin_end = 20;
-            this.margin_top = 16;
-            this.margin_bottom = 20;
+        public AlphaSlider () {
+            Object ();
         }
 
         construct {
             this.orientation = Gtk.Orientation.HORIZONTAL;
-            this.spacing = 0;
+            this.adjustment = new Gtk.Adjustment (1, 0, 1, 0.01, 100, 0);
+            this.width_request = 193;
+            this.draw_value = false;
+            this.digits = 2;
+            this.has_origin = false;
 
-            Gtk.Entry entry = new Gtk.Entry () {
-                editable = false,
-                secondary_icon_name = "edit-copy"
-            };
-            Gtk.ComboBoxText combo = new Gtk.ComboBoxText () {
-                margin_start = 10
-            };
-            foreach (unowned Enums.Format format in Enums.Format.all ()) {
-                combo.append_text (
-                    Enums.Format.get_real_format_name (format.to_string ())
-                );
-            }
-            combo.set_active (0);
-
-            this.pack_start (entry, true, true, 0);
-            this.pack_end (combo, true, true, 0);
+            this.get_style_context ().add_class ("opacity");
         }
 
     }

@@ -19,24 +19,36 @@
  * Authored by: Arvianto Dwi Wicaksono <arvianto.dwi@gmail.com>
  */
 
-namespace Fulo.Widgets {
+namespace Fulo.Widgets.Editor {
 
-    public class HueRange : Gtk.Scale {
+    class ColorEditor : Gtk.Grid {
 
-        public HueRange () {
-            Object ();
-        }
+        //  Properties
+
+        //  Instance
+        private Chooser chooser;
+        private HueSlider hue_slider;
+        private AlphaSlider alpha_slider;
+        private Contrast contrast;
 
         construct {
-            this.orientation = Gtk.Orientation.HORIZONTAL;
-            this.adjustment = new Gtk.Adjustment (360, 0, 360, 1, 360, 0);
-            this.width_request = 193;
-            this.draw_value = false;
-            this.digits = 4;
-            this.has_origin = false;
+            this.margin_start = 20;
+            this.margin_end = 20;
+            this.column_spacing = 10;
+            this.row_spacing = 7;
 
-            this.get_style_context ().add_class ("hue");
+            chooser = new Chooser ();
+            hue_slider = new HueSlider ();
+            alpha_slider = new AlphaSlider ();
+            contrast = new Contrast ();
+
+            this.attach (chooser, 0, 0, 2, 1);
+            this.attach_next_to (hue_slider, chooser, Gtk.PositionType.BOTTOM, 1, 1);
+            this.attach_next_to (alpha_slider, hue_slider, Gtk.PositionType.BOTTOM, 1, 1);
+            this.attach_next_to (contrast, hue_slider, Gtk.PositionType.RIGHT, 1, 2);
         }
+
+        public ColorEditor () {}
 
     }
 

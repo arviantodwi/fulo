@@ -35,10 +35,7 @@ namespace Fulo.Views {
         private HexEntry hex_entry;
         private ColorName color_name;
         private PickerButton picker_button;
-        private HueRange hue_range;
-        private OpacityRange opacity_range;
-        private Contrast contrast;
-        private ColorRegion color_region;
+        private Editor.ColorEditor editor;
         private Format format;
         private Toast toast;
 
@@ -58,10 +55,7 @@ namespace Fulo.Views {
             hex_entry = new HexEntry (hex);
             color_name = new ColorName ("Red");
             picker_button = new PickerButton ();
-            color_region = new ColorRegion ();
-            hue_range = new HueRange ();
-            opacity_range = new OpacityRange ();
-            contrast = new Contrast ();
+            editor = new Editor.ColorEditor ();
             format = new Format ();
             
             toast = new Toast (_("Color was pressed!"));
@@ -99,24 +93,10 @@ namespace Fulo.Views {
             right_first_row.pack_start (entry_grid, false);
             right_first_row.pack_end (picker_button, false);
             
-            Gtk.Box scales_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            scales_box.pack_start (hue_range, true);
-            scales_box.pack_end (opacity_range, true);
-            
-            Gtk.Box right_third_row = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-            right_third_row.margin_start = 20;
-            right_third_row.margin_end = 20;
-            right_third_row.margin_top = 5;
-            right_third_row.pack_start (scales_box, true);
-            right_third_row.pack_end (contrast, false);
-            
-            //  Gtk.ColorChooserWidget chooser = new Gtk.ColorChooserWidget ();
-            //  chooser.show_editor = true;
             Gtk.Box right_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             right_box.pack_start (right_first_row, false);
-            right_box.pack_start (color_region, false);
-            right_box.pack_start (right_third_row, false);
-            right_box.pack_end (format, false);
+            right_box.pack_start (editor, false);
+            right_box.pack_start (format, false);
             
             Gtk.Box root_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
             root_box.pack_start (left_box, false);
