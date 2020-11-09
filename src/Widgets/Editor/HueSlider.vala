@@ -23,19 +23,27 @@ namespace Fulo.Widgets.Editor {
 
     public class HueSlider : Gtk.Scale {
 
-        public HueSlider () {
-            Object ();
+        //  Signals
+        public signal void on_value_changed (double hue);
+
+        public HueSlider (double hue) {
+            this.adjustment = new Gtk.Adjustment (hue, 0, 360, 1, 360, 0);
         }
 
         construct {
+            //  Initialize parent's properties
             this.orientation = Gtk.Orientation.HORIZONTAL;
-            this.adjustment = new Gtk.Adjustment (360, 0, 360, 1, 360, 0);
             this.width_request = 193;
             this.draw_value = false;
             this.digits = 4;
             this.has_origin = false;
 
             this.get_style_context ().add_class ("hue");
+
+            this.value_changed.connect (() => {
+                double hue = this.adjustment.get_value () / 360;
+                on_value_changed (hue);
+            });
         }
 
     }

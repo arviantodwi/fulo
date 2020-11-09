@@ -24,31 +24,63 @@ namespace Fulo.Widgets.Editor {
     class ColorEditor : Gtk.Grid {
 
         //  Properties
-
-        //  Instance
+        public Gdk.RGBA active_color;
         private Chooser chooser;
         private HueSlider hue_slider;
         private AlphaSlider alpha_slider;
         private Contrast contrast;
 
+        //  Signals
+        public signal void on_active_color_change (Gdk.RGBA new_color);
+
         construct {
+            //  Initialize parent's properties
             this.margin_start = 20;
             this.margin_end = 20;
             this.column_spacing = 10;
             this.row_spacing = 7;
 
-            chooser = new Chooser ();
-            hue_slider = new HueSlider ();
+            //  initialize UI instances
+            chooser = new Chooser (active_color);
+            hue_slider = new HueSlider (360);
             alpha_slider = new AlphaSlider ();
-            contrast = new Contrast ();
+            contrast = new Contrast (active_color);
+            
+            //  Set active color
+            active_color.parse ("#FF0000");
 
             this.attach (chooser, 0, 0, 2, 1);
             this.attach_next_to (hue_slider, chooser, Gtk.PositionType.BOTTOM, 1, 1);
             this.attach_next_to (alpha_slider, hue_slider, Gtk.PositionType.BOTTOM, 1, 1);
             this.attach_next_to (contrast, hue_slider, Gtk.PositionType.RIGHT, 1, 2);
-        }
 
-        public ColorEditor () {}
+            chooser.on_sv_move.connect ((s, v) => {
+                double hue = Helpers.get_hue (active_color) / 360;
+                Gtk.HSV.to_rgb (hue, s, v, out active_color.red, out active_color.green, out active_color.blue);
+                contrast.set_foreground (active_color);
+                on_active_color_change (active_color);
+            });
+
+            alpha_slider.on_value_changed.connect ((alpha) => {
+                contrast.set_foreground_alpha (alpha);
+            });
+
+            hue_slider.on_value_changed.connect ((hue) => {
+                double s, v;
+                double sr, sg, sb;
+                double r, g, b;
+                chooser.pos_to_sv (out s, out v);
+                Gtk.HSV.to_rgb (hue, 1, 1, out sr, out sg, out sb);
+                Gtk.HSV.to_rgb (hue, s, v, out r, out g, out b);
+
+                active_color.red = r;
+                active_color.green = g;
+                active_color.blue = b;
+                chooser.update_surface_color (sr, sg, sb);
+                contrast.set_foreground (active_color);
+                on_active_color_change (active_color);
+            });
+        }
 
     }
 

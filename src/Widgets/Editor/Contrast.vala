@@ -23,65 +23,74 @@ namespace Fulo.Widgets.Editor {
 
     public class Contrast : Gtk.Box {
 
-        private Gdk.RGBA _color;
+        //  Properties
+        private static double r;
+        private static double g;
+        private static double b;
+        private static double a;
+        private const uint8 BOX_WIDTH = 47;
+        private Gtk.DrawingArea blackbox;
+        private Gtk.DrawingArea whitebox;
 
-        public Contrast () {
-            //  this.margin_start = 10;
+        public Contrast (Gdk.RGBA active_color) {
+            r = active_color.red;
+            g = active_color.green;
+            b = active_color.blue;
+            a = active_color.alpha;
         }
 
         construct {
+            //  Initialize parent's properties
             this.orientation = Gtk.Orientation.HORIZONTAL;
             this.spacing = 6;
             this.valign = Gtk.Align.CENTER;
+
+            blackbox = new Gtk.DrawingArea ();
+            blackbox.set_size_request (BOX_WIDTH, BOX_WIDTH);
+            blackbox.draw.connect ((context) => {
+                draw_contrast_box (context, "dark");
+            });
             
-            _color.parse ("#F00");
-
-            Gtk.DrawingArea contrast_dark = new Gtk.DrawingArea ();
-            contrast_dark.set_size_request (47, 47);
-            Cairo.ImageSurface contrast_dark_surface = new Cairo.ImageSurface (
-                Cairo.Format.ARGB32, 47, 47
-            );
-            Cairo.Context contrast_dark_context = new Cairo.Context (contrast_dark_surface);
-            contrast_dark.draw.connect ((contrast_dark_context) => {
-                draw_contrast (contrast_dark_context, "dark");
+            whitebox = new Gtk.DrawingArea ();
+            whitebox.set_size_request (BOX_WIDTH, BOX_WIDTH);            
+            whitebox.draw.connect ((context) => {
+                draw_contrast_box (context, "light");
             });
-
-            Gtk.DrawingArea contrast_light = new Gtk.DrawingArea ();
-            contrast_light.set_size_request (47, 47);
-            Cairo.ImageSurface contrast_light_surface = new Cairo.ImageSurface (
-                Cairo.Format.ARGB32, 47, 47
-            );
-            Cairo.Context contrast_light_context = new Cairo.Context (contrast_light_surface);
-            contrast_light.draw.connect ((contrast_light_context) => {
-                draw_contrast (contrast_light_context, "light");
-            });
-
-            this.pack_start (contrast_dark, false);
-            this.pack_end (contrast_light, false);
+            
+            this.pack_start (blackbox, false);
+            this.pack_end (whitebox, false);
         }
 
-        public void set_color (Gdk.RGBA color) {
-            _color = color;
-        }
+        private static bool draw_contrast_box (Cairo.Context context, string contrast_type) {
+            char c = (contrast_type == "dark") ? 0 : 1;
 
-        private bool draw_contrast (Cairo.Context context, string contrast_type) {
-            Cairo.Pattern p1 = (contrast_type == "dark")
-                ? new Cairo.Pattern.rgb (0, 0, 0)
-                : new Cairo.Pattern.rgb (1, 1, 1);
-            context.rectangle (0, 0, 47, 47);
-            context.set_source (p1);
-            context.fill ();
+            context.set_source_rgb (c, c, c);
+            context.paint ();
 
-            Cairo.Pattern p2 = new Cairo.Pattern.rgba (_color.red, _color.green, _color.blue, _color.alpha);
-            context.rectangle (0, 0, 47, 47);
-            context.set_source (p2);
-            context.fill ();
+            context.set_source_rgba (r, g, b, a);
+            context.paint ();
 
             context.rectangle (33, 33, 10, 10);
-            context.set_source (p1);
+            context.set_source_rgb (c, c, c);
             context.fill ();
 
-            return true;
+            return false;
+        }
+
+        public void set_foreground (Gdk.RGBA active_color) {
+            r = active_color.red;
+            g = active_color.green;
+            b = active_color.blue;
+            a = active_color.alpha;
+
+            blackbox.queue_draw ();
+            whitebox.queue_draw ();
+        }
+
+        public void set_foreground_alpha (double alpha) {
+            a = alpha;
+            blackbox.queue_draw ();
+            whitebox.queue_draw ();
         }
 
     }
