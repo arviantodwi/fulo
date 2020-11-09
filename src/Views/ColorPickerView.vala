@@ -105,6 +105,10 @@ namespace Fulo.Views {
             this.add (root_box);
             this.add_overlay (toast);
 
+            editor.on_active_color_change.connect ((color) => {
+                hex_entry.text = Helpers.rgb_to_hex (color.red, color.green, color.blue);
+            });
+
             preset.color_clicked.connect ((color) => {
                 toast.send_notification ();
                 weak double hue = Helpers.get_hue (color);
