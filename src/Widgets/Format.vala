@@ -23,33 +23,81 @@ namespace Fulo.Widgets {
 
     public class Format : Gtk.Box {
 
-        public Format () {
+        private Gtk.Entry entry;
+        private Gtk.ComboBoxText combo;
+
+        public Format.as_rgb (string color_string) {
+            entry.set_text (color_string);
+            combo.set_active_id ("rgb");
+        }
+
+        public Format.as_rgba (string color_string) {
+            entry.set_text (color_string);
+            combo.set_active_id ("rgba");
+        }
+
+        public Format.as_hsv (string color_string) {
+            entry.set_text (color_string);
+            combo.set_active_id ("hsv");
+        }
+        
+        construct {
             this.margin_start = 20;
             this.margin_end = 20;
             this.margin_top = 16;
             this.margin_bottom = 20;
-        }
-
-        construct {
             this.orientation = Gtk.Orientation.HORIZONTAL;
-            this.spacing = 0;
+            this.spacing = 10;
 
-            Gtk.Entry entry = new Gtk.Entry () {
-                editable = false,
-                secondary_icon_name = "edit-copy"
-            };
-            Gtk.ComboBoxText combo = new Gtk.ComboBoxText () {
-                margin_start = 10
-            };
+            entry = new Gtk.Entry ();
+            entry.editable = false;
+            entry.secondary_icon_name = "edit-copy";
+
+            combo = new Gtk.ComboBoxText ();
             foreach (unowned Enums.Format format in Enums.Format.all ()) {
-                combo.append_text (
+                combo.append (
+                    format.to_nick (),
                     Enums.Format.get_real_format_name (format.to_string ())
                 );
             }
-            combo.set_active (0);
 
-            this.pack_start (entry, true, true, 0);
-            this.pack_end (combo, true, true, 0);
+            this.pack_start (entry, true);
+            this.pack_end (combo, true);
+
+            combo.changed.connect (() => {
+                print ("Active ID: %s\n", combo.get_active_id ().to_string ());
+            });
+        }
+
+        public void reformat (Gdk.RGBA active_color, double active_hue) {
+            if (combo.active_id != "rgba" && active_color.alpha < 1) {
+                combo.set_active_id ("rgba");
+            }
+
+            if (combo.active_id == "rgba") {
+                if (active_color.alpha < 1) {
+                    entry.set_text (active_color.to_string ().up ());
+                } else {
+                    int r = (int) GLib.Math.round (active_color.red * 255);
+                    int g = (int) GLib.Math.round (active_color.green * 255);
+                    int b = (int) GLib.Math.round (active_color.blue * 255);
+                    entry.set_text (@"RGBA($r,$g,$b,$(active_color.alpha))");
+                }
+            } else if (combo.active_id == "rgb") {
+                entry.set_text (active_color.to_string ().up ());
+            } else if (combo.active_id == "hsv") {
+                int rh, rs, rv;
+                double h, s, v;
+                Gtk.rgb_to_hsv (active_color.red, active_color.green, active_color.blue, out h, out s, out v);
+                if (h == 0) {
+                    h = active_hue;
+                }
+
+                rh = (int) (h * 360);
+                rs = (int) (s * 100);
+                rv = (int) (v * 100);
+                entry.set_text (@"HSV($rh,$rs%,$rv%)");
+            }
         }
 
     }

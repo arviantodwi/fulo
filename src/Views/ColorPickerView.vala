@@ -27,7 +27,8 @@ namespace Fulo.Views {
     class ColorPickerView : Gtk.Overlay {
 
         //  Properties
-        public Gdk.RGBA current_color { get; private set; }
+        //  TODO: remove current_color if unused
+        //  public Gdk.RGBA current_color { get; private set; }
 
         //  UI
         private SwatchGroup preset;
@@ -40,23 +41,27 @@ namespace Fulo.Views {
         private Toast toast;
 
         //  Instantiation
-        public ColorPickerView () {
-            //  
-        }
+        public ColorPickerView () {}
 
         construct {
+            //  TODO: remove current color initialization if unused
             //  Initialize current color
-            string hex = "#FF0000";
-            current_color.parse (hex);
+            //  string hex = "#FF0000";
+            //  current_color.parse (hex);
             
             //  Set all widgets
             preset = new SwatchGroup.make_preset (Helpers.get_preset_colors (), _("Preset Colors"), 5);
             custom = new SwatchGroup (_("Custom Colors"));
-            hex_entry = new HexEntry (hex);
-            color_name = new ColorName ("Red");
             picker_button = new PickerButton ();
             editor = new Editor.ColorEditor ();
-            format = new Format ();
+            color_name = new ColorName ("Red");
+            
+            unowned Gdk.RGBA active_color = editor.active_color;
+            string hex = Helpers.rgb_to_hex (active_color.red, active_color.green, active_color.blue);
+            hex_entry = new HexEntry ();
+            hex_entry.set_value (hex);
+
+            format = new Format.as_rgb (active_color.to_string ().up ());
             
             toast = new Toast (_("Color was pressed!"));
             toast.set_default_action (_("Do Things"));
@@ -105,8 +110,9 @@ namespace Fulo.Views {
             this.add (root_box);
             this.add_overlay (toast);
 
-            editor.on_active_color_change.connect ((color) => {
-                hex_entry.text = Helpers.rgb_to_hex (color.red, color.green, color.blue);
+            editor.on_active_color_change.connect ((color, hue) => {
+                hex_entry.set_value (Helpers.rgb_to_hex (color.red, color.green, color.blue));
+                format.reformat (color, hue);
             });
 
             preset.color_clicked.connect ((color) => {
@@ -120,7 +126,9 @@ namespace Fulo.Views {
                 hex_entry.set_value (Helpers.rgb_to_hex (r, g, b));
             });
             
-            custom.color_clicked.connect (() => {});
+            custom.color_clicked.connect ((hue) => {
+                
+            });
         }
 
     }

@@ -31,7 +31,7 @@ namespace Fulo.Widgets.Editor {
         private Contrast contrast;
 
         //  Signals
-        public signal void on_active_color_change (Gdk.RGBA new_color);
+        public signal void on_active_color_change (Gdk.RGBA new_color, double current_hue);
 
         construct {
             //  Initialize parent's properties
@@ -39,15 +39,15 @@ namespace Fulo.Widgets.Editor {
             this.margin_end = 20;
             this.column_spacing = 10;
             this.row_spacing = 7;
-
+            
+            //  Set active color
+            active_color.parse ("#FF0000");
+            
             //  initialize UI instances
             chooser = new Chooser (active_color);
             hue_slider = new HueSlider (360);
             alpha_slider = new AlphaSlider ();
             contrast = new Contrast (active_color);
-            
-            //  Set active color
-            active_color.parse ("#FF0000");
 
             this.attach (chooser, 0, 0, 2, 1);
             this.attach_next_to (hue_slider, chooser, Gtk.PositionType.BOTTOM, 1, 1);
@@ -55,14 +55,18 @@ namespace Fulo.Widgets.Editor {
             this.attach_next_to (contrast, hue_slider, Gtk.PositionType.RIGHT, 1, 2);
 
             chooser.on_sv_move.connect ((s, v) => {
-                double hue = Helpers.get_hue (active_color) / 360;
+                double hue = hue_slider.get_value () / 360;
                 Gtk.HSV.to_rgb (hue, s, v, out active_color.red, out active_color.green, out active_color.blue);
                 contrast.set_foreground (active_color);
-                on_active_color_change (active_color);
+                on_active_color_change (active_color, hue);
             });
 
             alpha_slider.on_value_changed.connect ((alpha) => {
+                double hue = hue_slider.get_value () / 360;
+                string formatted_alpha = "%1.2f".printf (alpha);
+                active_color.alpha = double.parse (formatted_alpha);
                 contrast.set_foreground_alpha (alpha);
+                on_active_color_change (active_color, hue);
             });
 
             hue_slider.on_value_changed.connect ((hue) => {
@@ -78,7 +82,7 @@ namespace Fulo.Widgets.Editor {
                 active_color.blue = b;
                 chooser.update_surface_color (sr, sg, sb);
                 contrast.set_foreground (active_color);
-                on_active_color_change (active_color);
+                on_active_color_change (active_color, hue);
             });
         }
 

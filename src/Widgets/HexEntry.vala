@@ -23,6 +23,8 @@ namespace Fulo.Widgets {
 
     public class HexEntry : Gtk.Entry {
 
+        public HexEntry () {}
+        
         construct {
             this.max_length = 7;
             this.editable = true;
@@ -30,10 +32,6 @@ namespace Fulo.Widgets {
             this.width_chars = 12;
             this.get_style_context ().add_class ("hex");
             //  this.add_events (Gdk.EventMask.ENTER_NOTIFY_MASK);
-        }
-
-        public HexEntry (string hex) {
-            this.text = hex;
         }
 
         public void set_value (string hex) {

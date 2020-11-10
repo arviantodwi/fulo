@@ -26,6 +26,14 @@ namespace Fulo.Enums {
         RGBA,
         HSV;
 
+        public string to_nick () {
+            GLib.EnumClass enumc = (GLib.EnumClass) typeof (Format).class_ref ();
+            unowned GLib.EnumValue? eval = enumc.get_value (this);
+            return_val_if_fail (eval != null, null);
+            
+            return eval.value_nick;
+        }
+
         public static string get_real_format_name (string name) {
             switch (name) {
                 case "FULO_ENUMS_FORMAT_RGB":
